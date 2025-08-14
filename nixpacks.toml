@@ -1,0 +1,19 @@
+# nixpacks.toml
+[phases.setup]
+nixPkgs = ["nodejs_22", "npm-9_x"]
+
+[phases.install]
+cmds = ["npm ci --workspace=@rain-or-shine/server --workspace=@rain-or-shine/client"]
+
+[phases.build]
+cmds = [
+  "npm run build:server",
+  "npm run build:client",
+  "cp -r apps/client/dist apps/server/public"
+]
+
+[start]
+cmd = "npm run start:server"
+
+[variables]
+NODE_ENV = "production"

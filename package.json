@@ -1,0 +1,36 @@
+{
+  "name": "rain-or-shine",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Strava activity weather integration - monorepo",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev:server & npm run dev:client",
+    "dev:client": "npm run dev --workspace=@rain-or-shine/client",
+    "dev:server": "npm run dev --workspace=@rain-or-shine/server",
+    "build": "npm run build:server && npm run build:client",
+    "build:client": "npm run build --workspace=@rain-or-shine/client",
+    "build:server": "npm run build --workspace=@rain-or-shine/server",
+    "start": "npm run start:server",
+    "start:server": "npm run start --workspace=@rain-or-shine/server",
+    "preview:client": "npm run preview --workspace=@rain-or-shine/client",
+    "lint": "npm run lint:server && npm run lint:client",
+    "lint:client": "npm run lint --workspace=@rain-or-shine/client",
+    "lint:server": "npm run lint --workspace=@rain-or-shine/server",
+    "typecheck": "npm run typecheck:server && npm run typecheck:client",
+    "typecheck:client": "npm run typecheck --workspace=@rain-or-shine/client",
+    "typecheck:server": "npm run typecheck --workspace=@rain-or-shine/server",
+    "test": "npm run test --workspace=@rain-or-shine/server",
+    "migrate": "npm run migrate --workspace=@rain-or-shine/server",
+    "install:all": "npm install"
+  },
+  "devDependencies": {
+    "prettier": "3.5.3"
+  },
+  "engines": {
+    "node": ">=22.11.0",
+    "npm": ">=10.0.0"
+  }
+}
