@@ -49,6 +49,7 @@ app.set("trust proxy", true);
 const corsOptions: cors.CorsOptions = {
   origin: config.isProduction
     ? [
+        "https://rain-or-shine-production.up.railway.app",
         "https://ngridge.com",
         "https://www.ngridge.com",
         "https://rain-or-shine.ngridge.com",
@@ -106,12 +107,35 @@ app.use(`${API_PREFIX}/health`, healthRouter);
  */
 if (config.isProduction) {
   const clientPath = path.join(__dirname, "../public");
+  
+  // Log the path for debugging
+  logger.info("Serving static files from:", { clientPath });
+  
+  // Check if the public directory exists
+  const fs = require("fs");
+  if (!fs.existsSync(clientPath)) {
+    logger.error("Public directory does not exist", { clientPath });
+  } else {
+    const indexPath = path.join(clientPath, "index.html");
+    if (!fs.existsSync(indexPath)) {
+      logger.error("index.html not found", { indexPath });
+    } else {
+      logger.info("index.html found", { indexPath });
+    }
+  }
+  
   app.use(express.static(clientPath));
   
   // Catch-all route to serve the React app for client-side routing
   // Only catch routes that don't start with /api
   app.get(/^(?!\/api).*/, (req, res) => {
-    res.sendFile(path.join(clientPath, "index.html"));
+    const indexPath = path.join(clientPath, "index.html");
+    res.sendFile(indexPath, (err) => {
+      if (err) {
+        logger.error("Error serving index.html", err);
+        res.status(500).send("Error loading application");
+      }
+    });
   });
 }
 
