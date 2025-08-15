@@ -9,7 +9,8 @@ cmds = ["npm ci --workspace=@rain-or-shine/server --workspace=@rain-or-shine/cli
 cmds = [
   "npm run build:server",
   "npm run build:client",
-  "cp -r apps/client/dist apps/server/public"
+  "mkdir -p apps/server/dist/public",
+  "cp -r apps/client/dist/* apps/server/dist/public/"
 ]
 
 [start]

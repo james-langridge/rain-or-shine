@@ -106,7 +106,7 @@ app.use(`${API_PREFIX}/health`, healthRouter);
  * Serve static files in production
  */
 if (config.isProduction) {
-  const clientPath = path.join(__dirname, "../public");
+  const clientPath = path.join(__dirname, "public");
   
   // Log the path for debugging
   logger.info("Serving static files from:", { clientPath });
