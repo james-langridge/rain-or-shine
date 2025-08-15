@@ -7,10 +7,10 @@ cmds = ["npm ci --workspace=@rain-or-shine/server --workspace=@rain-or-shine/cli
 
 [phases.build]
 cmds = [
-  "npm run build:server",
-  "npm run build:client",
-  "mkdir -p apps/server/dist/public",
-  "cp -r apps/client/dist/* apps/server/dist/public/"
+  "chmod +x build.sh",
+  "npm run build",
+  "echo '=== Final build check ==='",
+  "ls -la apps/server/dist/public/ || echo 'Warning: public directory missing'"
 ]
 
 [start]
