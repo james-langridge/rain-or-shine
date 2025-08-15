@@ -43,9 +43,7 @@ authRouter.get(
       logger.warn("OAuth state mismatch - possible CSRF", {
         requestId: (req as any).requestId,
       });
-      return res.redirect(
-        `${process.env.FRONTEND_URL}/auth/error?error=Invalid state`,
-      );
+      return res.redirect("/auth/error?error=Invalid state");
     }
 
     // Clear state from session
@@ -55,7 +53,7 @@ authRouter.get(
     next();
   },
   passport.authenticate("strava-callback", {
-    failureRedirect: `${process.env.FRONTEND_URL}/auth/error`,
+    failureRedirect: "/auth/error",
   }),
   (req: Request, res: Response) => {
     // Success! User is now in req.user and session is created
@@ -64,7 +62,7 @@ authRouter.get(
       requestId: (req as any).requestId,
     });
 
-    res.redirect(`${process.env.FRONTEND_URL}/auth/success`);
+    res.redirect("/auth/success");
   },
 );
 
