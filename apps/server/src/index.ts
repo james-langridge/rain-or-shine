@@ -109,7 +109,8 @@ if (config.isProduction) {
   app.use(express.static(clientPath));
   
   // Catch-all route to serve the React app for client-side routing
-  app.get("*", (req, res) => {
+  // Only catch routes that don't start with /api
+  app.get(/^(?!\/api).*/, (req, res) => {
     res.sendFile(path.join(clientPath, "index.html"));
   });
 }
