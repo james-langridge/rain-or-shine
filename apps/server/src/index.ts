@@ -40,8 +40,9 @@ requiredEnvVars.forEach((varName) => {
  */
 const app = express();
 
-// Trust proxy configuration for Coolify/Traefik
-app.set("trust proxy", true);
+// Trust proxy configuration for Railway
+// Set to 1 to trust the first proxy (Railway's load balancer)
+app.set("trust proxy", 1);
 
 /**
  * CORS configuration
@@ -81,9 +82,10 @@ app.use(
   rateLimit({
     windowMs: 60 * 1000,
     limit: 1000,
-    trustProxy: false, // Disable trust proxy for rate limiting
-    standardHeaders: true,
+    standardHeaders: 'draft-7',
     legacyHeaders: false,
+    // Skip rate limiting in development
+    skip: () => config.isDevelopment,
   }),
 );
 
@@ -93,9 +95,10 @@ app.use(
     windowMs: 15 * 60 * 1000,
     limit: 10, // 10 auth attempts per 15 min per IP
     message: "Too many login attempts",
-    trustProxy: false, // Disable trust proxy for rate limiting
-    standardHeaders: true,
+    standardHeaders: 'draft-7',
     legacyHeaders: false,
+    // Skip rate limiting in development
+    skip: () => config.isDevelopment,
   }),
   authRouter,
 );
